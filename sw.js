@@ -5,7 +5,7 @@
 // online via a normal network fetch, same as before this worker existed.
 importScripts("sw-manifest.js");
 
-const CACHE_VERSION = "torn-atlas-v4";
+const CACHE_VERSION = "torn-atlas-v5";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const RUNTIME_CACHE = CACHE_VERSION + "-runtime";
 const CURRENT_CACHES = [SHELL_CACHE, RUNTIME_CACHE];
