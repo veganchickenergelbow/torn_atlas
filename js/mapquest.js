@@ -70,13 +70,17 @@ function renderMqTitle(s) {
           <a class="mode-card" href="/variants/flag-voyage/"><b>Flag Voyage</b><span>The original flag-picking voyage</span></a>
           <button class="mode-card" id="btn-utopia-card"><b>🐱 Cat Utopia (${Cats.cats.length} cats)</b><span>Visit the cats you've adopted</span></button>
         </div>
-        <div class="guide-row"><div class="av">🦜</div><span class="pip-badge">🧭</span><p>${esc(Utopia.guideLine())}</p></div>
-        <button class="btn ghost" id="btn-myatlas">My Atlas (${MQ.found.size} found)</button>
+        <div class="guide-row"><div class="av">🦜</div><span class="pip-badge">🧭</span><p>${esc(Backup.shouldNudge() ? "Back up your colony! Tap Backup & restore." : Utopia.guideLine())}</p></div>
+        <div class="btn-row">
+          <button class="btn ghost" id="btn-myatlas">My Atlas (${MQ.found.size} found)</button>
+          <button class="btn ghost" id="btn-backup">Backup & restore</button>
+        </div>
       </div>
     </div>`;
   $("#btn-mapquest").onclick = () => { MQ.screen = "setup"; mqRender(); };
   $("#btn-myatlas").onclick = () => { MQ.screen = "atlas"; mqRender(); };
   $("#btn-utopia-card").onclick = () => { MQ.screen = "utopia"; mqRender(); };
+  $("#btn-backup").onclick = () => Backup.open();
 }
 
 function renderMqSetup(s) {

@@ -130,10 +130,11 @@ const Cats = (() => {
     state = { lifetimeCorrect: 0, cats: [], wondersSeen: [], milestonesReached: 0 };
     saveCatsState(state);
   }
+  function reload() { state = loadCats(); }
   return {
     get lifetimeCorrect() { return state.lifetimeCorrect; },
     get cats() { return state.cats; },
     get wondersSeen() { return state.wondersSeen; },
-    progress, recordCorrect, awardBonus, markWonderSeen, reset,
+    progress, recordCorrect, awardBonus, markWonderSeen, reset, reload,
   };
 })();

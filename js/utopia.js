@@ -86,6 +86,7 @@ const Utopia = {
         <div class="btn-row">
           <button class="btn" id="rw-visit">Visit Cat Utopia</button>
           <button class="btn ghost" id="rw-keep">Keep exploring</button>
+          ${Backup.shouldNudge() ? `<button class="btn ghost" id="rw-backup">Back up now</button>` : ""}
         </div>
       </div>`;
     document.body.appendChild(div);
@@ -96,6 +97,8 @@ const Utopia = {
     };
     div.querySelector("#rw-visit").onclick = () => close(true);
     div.querySelector("#rw-keep").onclick = () => close(false);
+    const rwBackup = div.querySelector("#rw-backup");
+    if (rwBackup) rwBackup.onclick = () => { div.remove(); Backup.open(); };
   },
   renderWonderModal(wonder, onDone) {
     const div = document.createElement("div");
@@ -178,6 +181,7 @@ const Utopia = {
           <h2>Cat Utopia</h2>
           <p class="muted">${n} cat${n === 1 ? "" : "s"} · ${wondersUnlocked}/${WONDERS.length} wonders · ${legendary} legendary</p>
           <p class="legend">🐾 Answer flags correctly in Flag Quest to adopt cats. A perfect round (5+ questions, all 3★) earns a bonus cat!</p>
+          <button class="btn ghost" id="utopia-backup">Backup & restore</button>
         </div>
         ${n === 0 ? `<div class="utopia-empty panel"><div class="masc pip"><div class="face">🧭</div></div><p>Answer 3 flags correctly to adopt your first cat!</p></div>` : `<div class="utopia-zones" id="utopia-zones"></div>`}
         <div class="btn-row" style="margin-top:14px"><button class="btn ghost" id="utopia-back">Back</button></div>
@@ -185,6 +189,7 @@ const Utopia = {
       </div>
       <div id="cat-card-slot"></div>`;
     document.getElementById("utopia-back").onclick = () => { MQ.screen = "title"; this.stopTimers(); mqRender(); };
+    document.getElementById("utopia-backup").onclick = () => Backup.open();
     document.getElementById("utopia-reset").onclick = () => {
       if (confirm("Reset your cat colony? This permanently deletes every cat you've adopted.")) { Cats.reset(); this.render(container); }
     };

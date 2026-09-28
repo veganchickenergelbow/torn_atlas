@@ -212,6 +212,7 @@ self.SW_MANIFEST = [
   "icons/icon-512.png",
   "icons/icon-512-maskable.png",
   "index.html",
+  "js/backup.js",
   "js/catart.js",
   "js/cats.js",
   "js/catsheet.js",
