@@ -4,7 +4,7 @@
 # instead), and anything under .git or a PowerShell build script.
 $root = $PSScriptRoot
 $patterns = @(
-  "index.html", "manifest.webmanifest", "style.css", "audio.js",
+  "index.html", "manifest.webmanifest", "style.css", "audio.js", "favicon.png",
   "css\*.css", "js\*.js", "data\*.js", "flags\*.svg", "icons\*.png", "vendor\*.js"
 )
 $files = @("./")
