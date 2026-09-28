@@ -1,0 +1,135 @@
+/* Cat Utopia — HUD meter, reward modal, pixel scene screen. Uses existing
+   tokens for UI chrome; the outdoor scenes use a fixed illustration palette
+   (baked into the sprite pixels themselves) so they read the same in light
+   and dark app mode, like the flag art does. */
+
+@keyframes pixelplay { from { background-position: 0 0; } to { background-position: calc(-1 * var(--sheet-w, 0px)) 0; } }
+.pixel-sprite { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* HUD paw meter */
+.paw-meter { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-disp); font-weight: 700; color: var(--sun-t); }
+.paw-meter .paw-bar { width: 56px; height: 8px; border-radius: 99px; background: var(--panel-2); box-shadow: inset 0 0 0 1.5px var(--line); overflow: hidden; }
+.paw-meter .paw-bar i { display: block; height: 100%; background: var(--sun); border-radius: 99px; transition: width .4s ease; }
+.paw-meter.pulse { animation: paw-pulse .5s ease; }
+@keyframes paw-pulse { 0% { transform: scale(1); } 40% { transform: scale(1.22); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .paw-meter.pulse { animation: none; } }
+
+/* reward + generic modal shell */
+.cat-modal-wrap { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; }
+.cat-modal-bg { position: absolute; inset: 0; background: rgba(28,20,12,.55); }
+.cat-modal { position: relative; width: min(100%, 420px); max-height: 90vh; overflow: auto; background: var(--panel); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 22px; display: grid; gap: 10px; justify-items: center; text-align: center; }
+.cat-modal h2 { font-size: 21px; color: var(--coral); }
+.reward-name { font-family: var(--f-disp); font-size: 18px; }
+.reward-flag .flag-img { width: 56px; height: auto; border-radius: 5px; box-shadow: 0 0 0 1.5px var(--line); }
+.reward-fact { font-size: 13.5px; color: var(--ink-2); }
+.odo-line { font-size: 12.5px; font-weight: 700; color: var(--ice-t); }
+.cat-badge { font-size: 11.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; border-radius: 99px; padding: 4px 12px; }
+.cat-badge.legendary { background: var(--sun-2); color: var(--sun-t); box-shadow: inset 0 0 0 1.5px var(--sun-d); }
+.cat-badge.rare { background: #EDE1FB; color: #6A3FA0; box-shadow: inset 0 0 0 1.5px #B79AE0; }
+:root[data-theme="dark"] .cat-badge.rare { background: #362849; color: #D6C2F5; box-shadow: inset 0 0 0 1.5px #7A5FA8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cat-badge.rare { background: #362849; color: #D6C2F5; box-shadow: inset 0 0 0 1.5px #7A5FA8; } }
+.cat-badge.common { background: var(--panel-2); color: var(--ink-2); box-shadow: inset 0 0 0 1.5px var(--line); }
+
+.gift-scene { position: relative; width: 140px; height: 140px; display: grid; place-items: center; }
+.gift-box { grid-area: 1 / 1; font-size: 56px; animation: gift-wobble 1.1s ease 1; }
+.gift-lid { display: none; }
+.reward-cat { grid-area: 1 / 1; opacity: 0; }
+.reward-cat.pop { animation: reward-pop .7s cubic-bezier(.2,1.6,.4,1) .9s forwards; }
+@keyframes gift-wobble { 0%,100% { transform: rotate(0); } 15% { transform: rotate(-8deg); } 30% { transform: rotate(7deg); } 45% { transform: rotate(-5deg); } 60% { transform: rotate(3deg); } 75% { transform: scale(1.15); } 85% { transform: scale(0.9); } }
+@keyframes reward-pop { 0% { opacity: 0; transform: translateY(20px) scale(.5); } 70% { opacity: 1; transform: translateY(-6px) scale(1.08); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+.cat-modal-wrap.reduced .gift-box, .cat-modal-wrap.reduced .reward-cat { animation: none !important; opacity: 1; }
+.cat-modal-wrap.reduced .cat-modal { animation: fade-in .3s ease; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Utopia screen */
+.utopia-wrap { display: grid; gap: 14px; margin-top: 14px; padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.utopia-head h2 { font-size: 24px; color: var(--coral); }
+.utopia-head .legend { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; }
+.utopia-empty { display: grid; justify-items: center; gap: 8px; padding: 30px; text-align: center; }
+.reset-link { justify-self: center; border: 0; background: none; color: var(--ink-3); text-decoration: underline; font-size: 12px; padding: 8px; }
+
+.utopia-zones { display: grid; gap: 14px; }
+.zone { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+.zone-scene { position: relative; overflow: hidden; }
+.zone-scene.sky-day { background: linear-gradient(180deg, #8FCBEA 0%, #A9D7EC 40%, #D9ECD8 70%, #FDECC5 100%); }
+.zone-scene.sky-golden { background: linear-gradient(180deg, #E97F4A 0%, #F2A65A 35%, #F7C57E 70%, #FFD9A0 100%); }
+.zone-scene.sky-night { background: linear-gradient(180deg, #0F1530 0%, #131A33 40%, #1E2748 75%, #263056 100%); }
+.zone-name-tag { padding: 3px 14px; font-family: var(--f-disp); font-weight: 700; font-size: 13.5px; color: var(--ink-2); background: var(--panel-2); }
+.zone-sunmoon { position: absolute; top: 8px; right: 10px; }
+.zone-cloud { position: absolute; top: 14px; opacity: .9; animation: cloud-drift 34s linear infinite; }
+.zone-cloud.c0 { left: -20%; animation-duration: 30s; }
+.zone-cloud.c1 { left: -60%; top: 26px; animation-duration: 42s; animation-delay: -14s; }
+@keyframes cloud-drift { from { transform: translateX(0); } to { transform: translateX(220px); } }
+.zone-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; opacity: .8; animation: star-twinkle 2.2s ease-in-out infinite; }
+@keyframes star-twinkle { 0%,100% { opacity: .25; } 50% { opacity: .95; } }
+.zone-lantern { position: absolute; bottom: 34%; width: 6px; height: 6px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 8px 3px var(--sun); opacity: .85; animation: lantern-glow 2.6s ease-in-out infinite; }
+@keyframes lantern-glow { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.zone-wonder-art { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); z-index: 1; }
+.zone-wonder-art.zone-dim { filter: grayscale(1) brightness(.55); opacity: .55; }
+.zone-hills-layer { position: absolute; left: 0; right: 0; }
+.zone-ground-layer { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; }
+.zone-cats { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; }
+.zone.locked .zone-lock-overlay { position: absolute; inset: 0; display: grid; place-items: center; gap: 4px; text-align: center; background: rgba(28,20,12,.4); }
+.zone.locked .zone-lock-overlay p { font-weight: 800; color: #fff; }
+.zone.locked .zone-lock-overlay .zone-name { font-size: 12px; color: #fff; opacity: .85; }
+
+.deco-pos { position: absolute; pointer-events: none; z-index: 5; }
+/* anchored relative to the cat's head (top of the chip, not its full height) */
+.deco-pos.z { top: -2px; right: 0; animation: z-rise 2s ease-out infinite; }
+.deco-pos.z.z-sm { right: 6px; animation-delay: 0s; }
+.deco-pos.z.z-lg { top: 2px; right: -2px; animation-delay: .7s; }
+@keyframes z-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translate(-10px, -14px); opacity: 0; } }
+.deco-pos.fly { top: -8px; left: -4px; animation: deco-bob 1.4s ease-in-out infinite; }
+.deco-pos.yarn { bottom: -4px; left: -16px; animation: deco-roll 1.6s ease-in-out infinite; }
+.deco-pos.bowl { bottom: -6px; right: -16px; }
+.deco-pos.glint, .deco-pos.sparkle { top: -2px; right: -6px; animation: deco-twinkle 1.6s ease-in-out infinite; }
+.deco-pos.emote { top: -16px; right: 4px; font-size: 13px; font-weight: 800; color: var(--coral); text-shadow: 0 1px 0 var(--panel); animation: deco-float 1.8s ease-in-out infinite; }
+@keyframes deco-float { 0%,100% { transform: translateY(0); opacity: .8; } 50% { transform: translateY(-6px); opacity: .2; } }
+@keyframes deco-bob { 0%,100% { transform: translate(0,0); } 50% { transform: translate(5px,-5px); } }
+@keyframes deco-roll { 0%,100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(-8px) rotate(180deg); } }
+@keyframes deco-twinkle { 0%,100% { opacity: .2; } 50% { opacity: 1; } }
+
+.cat-chip { position: absolute; bottom: 2px; border: 0; background: none; padding: 0; cursor: pointer; transform: translateX(-50%); min-width: 44px; min-height: 44px; display: flex; align-items: flex-end; justify-content: center; z-index: 4; }
+.cat-chip.row-1 { bottom: 20px; z-index: 3; transform: translateX(-50%) scale(.92); }
+.anim-napping .cat-chip-art { animation: cat-breathe 2.6s ease-in-out infinite; }
+.anim-wandering { animation: cat-walk 6s ease-in-out infinite alternate; }
+.anim-zooming { animation: cat-walk 1.8s ease-in-out infinite alternate; }
+.anim-sunbathing .cat-chip-art { animation: cat-breathe 3.2s ease-in-out infinite; }
+.anim-grooming .cat-chip-art { animation: cat-tilt 2.2s ease-in-out infinite; }
+.anim-making-biscuits .cat-chip-art { animation: cat-breathe 1.4s ease-in-out infinite; }
+@keyframes cat-breathe { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.05); } }
+/* patrol range comes from --patrol (set inline per cat, sized to its lane) so a
+   walker never leaves its slot regardless of how many cats share the zone.
+   Walkers/runners flip horizontally (scaleX(-1)) on the return leg to face
+   the direction they're moving. */
+@keyframes cat-walk { from { transform: translate(-50%, 0) translateX(calc(-1 * var(--patrol, 16px))); } to { transform: translate(-50%, 0) translateX(var(--patrol, 16px)) scaleX(-1); } }
+@keyframes cat-tilt { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-6deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .cat-chip, .cat-chip-art, .deco-pos, .zone-star, .zone-lantern, .zone-cloud, .pixel-sprite { animation: none !important; }
+}
+.cat-overflow { position: absolute; bottom: 8px; right: 8px; border: 0; border-radius: 99px; padding: 4px 10px; font-weight: 800; font-size: 12px; background: var(--panel); box-shadow: inset 0 0 0 1.5px var(--line); min-height: 30px; z-index: 3; }
+
+.cat-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px,1fr)); gap: 8px; max-height: 50vh; overflow: auto; width: 100%; }
+.cat-list-row { border: 0; background: var(--panel-2); border-radius: var(--r-sm); padding: 6px; display: grid; gap: 2px; justify-items: center; font-size: 11px; font-weight: 700; }
+.cat-card-meta { font-size: 13.5px; }
+.cat-card-activity { font-style: italic; color: var(--ink-2); font-size: 13px; }
+
+/* Home page: Odo & Pip guide row (replaces the old standalone avatars) */
+.guide-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; margin-top: 4px; background: var(--ice-2); border-radius: var(--r-md); position: relative; text-align: left; }
+.guide-row .av { width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--panel); display: grid; place-items: center; font-size: 20px; box-shadow: inset 0 0 0 2px var(--line); }
+.guide-row .pip-badge { position: absolute; top: -6px; left: 32px; width: 22px; height: 22px; border-radius: 50%; background: var(--sun-2); display: grid; place-items: center; font-size: 12px; box-shadow: 0 0 0 2px var(--panel); }
+.guide-row p { font-size: 13.5px; font-weight: 700; color: var(--ice-t); }
+
+/* debug contact sheet (?catsheet) */
+.catsheet { display: grid; gap: 18px; padding: 12px; background: #fff; }
+.catsheet-section h3 { font: 700 13px/1.4 sans-serif; color: #333; margin: 0 0 6px; }
+.catsheet-refs { display: flex; gap: 10px; background: #bfe3f2; padding: 10px; border-radius: 8px; }
+.catsheet-refs img { border-radius: 4px; box-shadow: 0 0 0 1px #0002; }
+.catsheet-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: #bfe3f2; padding: 10px; border-radius: 8px; }
+.catsheet-row.dark { background: #24160c; }
+.catsheet-cell { display: grid; justify-items: center; gap: 2px; font: 10px monospace; color: #223; }
+.catsheet-row.dark .catsheet-cell { color: #ddd; }
+
+@media (max-width: 640px) {
+  .cat-modal { width: 100%; }
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Flag Quest — Torn Atlas</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Torn Atlas">
+<meta name="theme-color" content="#FBF1DD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C140C" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/mapquest.css">
+<link rel="stylesheet" href="css/cats.css">
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/topojson.min.js"></script>
+</head>
+<body>
+<div id="root">
+  <div class="hud" id="hud-wrap"><div class="wrap" style="padding-block:0"><div class="hud-in" id="hud"></div></div></div>
+  <main class="wrap" id="screen"></main>
+  <div id="footer"></div>
+  <div id="sheet" hidden></div>
+</div>
+<script src="data/world.js"></script>
+<script src="data/info.js"></script>
+<script src="data/flagdata.js"></script>
+<script src="data/dishes.js"></script>
+<script src="data/dish-photos.js"></script>
+<script src="data/extras.js"></script>
+<script src="audio.js"></script>
+<script src="js/util.js"></script>
+<script src="js/pixel.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/catsprites.js"></script>
+<script src="js/catsprites-tails.js"></script>
+<script src="js/catsprites-sleep.js"></script>
+<script src="js/catart.js"></script>
+<script src="js/cats.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/scenes-wonders.js"></script>
+<script src="js/scenes-master-wonders.js"></script>
+<script src="js/wonders.js"></script>
+<script src="js/utopia.js"></script>
+<script src="js/catsheet.js"></script>
+<script src="js/match.js"></script>
+<script src="js/hints.js"></script>
+<script src="js/globe.js"></script>
+<script src="js/dossier.js"></script>
+<script src="js/mapquest.js"></script>
+</body>
+</html>

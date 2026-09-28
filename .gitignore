@@ -1,0 +1,5 @@
+.claude/
+dev/refs/
+*.log
+Thumbs.db
+desktop.ini
